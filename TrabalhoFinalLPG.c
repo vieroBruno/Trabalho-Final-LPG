@@ -19,7 +19,7 @@ int main() {
 
         switch (opcaomenu) {
             case 1:
-                
+                printf("Função inserir");
                 break;
             case 2:
                
