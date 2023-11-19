@@ -5,6 +5,6 @@
 
 int main(int argc, char *argv[]) {
 	printf("Testando commit");
-	
+	printf("haha");
 	return 0;
 }
