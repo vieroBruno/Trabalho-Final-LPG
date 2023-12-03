@@ -126,7 +126,7 @@ int main() {
                 
                 break;
             case 2:
-                
+                printf("Função listar\n");
                 break;
             case 3:
                 
@@ -138,7 +138,7 @@ int main() {
                 menu = 0;
                 break;
             default:
-                printf("Opcao invalida. Tente novamente.\n");
+                printf("Opcão inválida. Tente novamente.\n");
         }
     }
 
