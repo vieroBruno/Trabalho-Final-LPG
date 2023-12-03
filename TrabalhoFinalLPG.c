@@ -123,6 +123,76 @@ void listar(struct tp_livro* lista, int tamanho) {
     }
 }
 
+void consultar(struct tp_livro** lista, int tamanho) {
+    struct tp_livro consulta_livro;
+
+    printf("\n\n--- Consulta de Livros ---\n\n"); 
+    if (tamanho == 0){
+        printf("Nenhum livro casdastrado.\n");
+    } else {
+        printf("Digite o título do livro a ser consultado: ");
+        fflush(stdin);
+        gets(consulta_livro.titulo_livro);
+        int i;
+        for (i = 0; i < tamanho; i++) {
+            if (strcmp(lista[i].titulo_livro, consulta_livro.titulo_livro) == 0) {
+                printf("Livro %d:\n", i + 1);
+                printf("  Título: %s\n", lista[i].titulo_livro);
+                printf("  Número de Páginas: %d\n", lista[i].n_pagina);
+                printf("  Estilo: %s\n", lista[i].estilo);
+                printf("  Nome da Editora: %s\n", lista[i].nome_editora);
+                printf("  Autor: %s\n", lista[i].autor.nome_autor);
+                printf("  Nacionalidade do Autor: %s\n", lista[i].autor.nacionalidade_autor);
+                printf("  Data de Cadastramento: %02d/%02d/%d\n", lista[i].data.dia, lista[i].data.mes, lista[i].data.ano);
+                printf("\n");
+            } else {
+                printf("Livro não encontrado.");
+            }
+        }
+    }
+}
+
+void remover(struct tp_livro** lista, int* tamanho) {
+    char titulo_remover[50];
+    printf("\n\n--- Remover Livro ---\n\n");
+
+    if (*tamanho == 0) {
+        printf("Nenhum livro cadastrado para remover.\n");
+        return;
+    }
+
+    printf("Digite o título do livro a ser removido: ");
+    fflush(stdin);
+    gets(titulo_remover);
+
+    int indiceRemover = -1;
+    int i;
+    for (i = 0; i < *tamanho; i++) {
+        if (strcmp((*lista)[i].titulo_livro, titulo_remover) == 0) {
+            indiceRemover = i;
+            break;
+        }
+    }
+
+    if (indiceRemover == -1) {
+        printf("Livro com o título '%s' não encontrado.\n", titulo_remover);
+    } else {
+        for (i = indiceRemover; i < *tamanho - 1; i++) {
+            (*lista)[i] = (*lista)[i + 1];
+        }
+
+        *lista = realloc(*lista, (*tamanho - 1) * sizeof(struct tp_livro));
+        if (*lista == NULL) {
+            printf("Erro ao realocar memória.\n");
+            exit(EXIT_FAILURE);
+        }
+
+        (*tamanho)--;
+        printf("Livro removido com sucesso!\n");
+    }
+}
+
+
 void salvarArquivo(struct tp_livro* lista,int tamanho){
 	FILE * arquivo= fopen("CadastroLivros.txt","w");
 	
@@ -202,7 +272,8 @@ int main() {
                 listar(lista, tamanho);
                 break;
             case 3:
-                
+                printf("Função remover\n");
+                remover(&lista, &tamanho);
                 break;
             case 4:
                 
