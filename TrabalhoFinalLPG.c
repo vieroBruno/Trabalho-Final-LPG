@@ -101,6 +101,28 @@ void inserir(struct tp_livro** lista, int* tamanho) {
     
 }
 
+void listar(struct tp_livro* lista, int tamanho) {
+    printf("\n\n--- Lista de Livros ---\n\n");
+
+    if (tamanho == 0) {
+        printf("Nenhum livro cadastrado.\n");
+        return;
+    }
+    
+	int i;
+    for (i = 0; i < tamanho; i++) {
+        printf("Livro %d:\n", i + 1);
+        printf("  Título: %s\n", lista[i].titulo_livro);
+        printf("  Número de Páginas: %d\n", lista[i].n_pagina);
+        printf("  Estilo: %s\n", lista[i].estilo);
+        printf("  Nome da Editora: %s\n", lista[i].nome_editora);
+        printf("  Autor: %s\n", lista[i].autor.nome_autor);
+        printf("  Nacionalidade do Autor: %s\n", lista[i].autor.nacionalidade_autor);
+        printf("  Data de Cadastramento: %02d/%02d/%d\n", lista[i].data.dia, lista[i].data.mes, lista[i].data.ano);
+        printf("\n");
+    }
+}
+
 void salvarArquivo(struct tp_livro* lista,int tamanho){
 	FILE * arquivo= fopen("CadastroLivros.txt","w");
 	
@@ -177,6 +199,7 @@ int main() {
                 break;
             case 2:
                 printf("Função listar\n");
+                listar(lista, tamanho);
                 break;
             case 3:
                 
@@ -196,6 +219,4 @@ int main() {
 
     return 0;
 }
-
-
 
