@@ -101,10 +101,60 @@ void inserir(struct tp_livro** lista, int* tamanho) {
     
 }
 
+void salvarArquivo(struct tp_livro* lista,int tamanho){
+	FILE * arquivo= fopen("CadastroLivros.txt","w");
+	
+	if(arquivo==NULL){
+		printf("Erro ao abrir o arquivo para escrita.\n");
+		exit(EXIT_FAILURE);
+	}
+	fprintf(arquivo,"%d\n",tamanho);
+	int i;
+	for(i=0;i<tamanho;i++){
+		fprintf(arquivo,"%s %d %s %s %s %s %d %d %d\n",
+		lista[i].titulo_livro, lista[i].n_pagina, lista[i].estilo,
+        lista[i].nome_editora, lista[i].autor.nome_autor,
+        lista[i].autor.nacionalidade_autor,
+        lista[i].data.dia, lista[i].data.mes, lista[i].data.ano
+		);
+	}
+	fclose(arquivo);
+}
+
+void carregarArquivo(struct tp_livro** lista, int* tamanho) {
+    FILE* arquivo = fopen("CadastroLivros.txt", "r");
+
+    if (arquivo == NULL) {
+        // Se o arquivo não existir, cria um vetor vazio
+        *lista = NULL;
+        *tamanho = 0;
+        return;
+    }
+
+    fscanf(arquivo, "%d", tamanho);
+
+    *lista = malloc(*tamanho * sizeof(struct tp_livro));
+    if (*lista == NULL) {
+        printf("Erro ao alocar memória.\n");
+        exit(EXIT_FAILURE);
+    }
+	int i;
+    for ( i = 0; i < *tamanho; i++) {
+        fscanf(arquivo, "%s %d %s %s %s %s %d %d %d",
+               (*lista)[i].titulo_livro, &(*lista)[i].n_pagina, (*lista)[i].estilo,
+               (*lista)[i].nome_editora, (*lista)[i].autor.nome_autor,
+               (*lista)[i].autor.nacionalidade_autor,
+               &(*lista)[i].data.dia, &(*lista)[i].data.mes, &(*lista)[i].data.ano);
+    }
+
+    fclose(arquivo);
+}
 int main() {
     setlocale(LC_ALL, "Portuguese");
     struct tp_livro* lista = NULL;
     int tamanho = 0;
+    
+    carregarArquivo(&lista,&tamanho);
 
     int menu = 1;
 
@@ -141,7 +191,7 @@ int main() {
                 printf("Opcão inválida. Tente novamente.\n");
         }
     }
-
+	salvarArquivo(lista, tamanho);
     free(lista);
 
     return 0;
