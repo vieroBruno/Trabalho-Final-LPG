@@ -123,32 +123,39 @@ void listar(struct tp_livro* lista, int tamanho) {
     }
 }
 
-void consultar(struct tp_livro** lista, int tamanho) {
-    struct tp_livro consulta_livro;
+void consultar(struct tp_livro* lista, int tamanho) {
+    char titulo_consultar[50];
+    printf("\n\n--- Consultar Livro ---\n\n");
 
-    printf("\n\n--- Consulta de Livros ---\n\n"); 
-    if (tamanho == 0){
-        printf("Nenhum livro casdastrado.\n");
-    } else {
-        printf("Digite o título do livro a ser consultado: ");
-        fflush(stdin);
-        gets(consulta_livro.titulo_livro);
-        int i;
-        for (i = 0; i < tamanho; i++) {
-            if (strcmp(lista[i].titulo_livro, consulta_livro.titulo_livro) == 0) {
-                printf("Livro %d:\n", i + 1);
-                printf("  Título: %s\n", lista[i].titulo_livro);
-                printf("  Número de Páginas: %d\n", lista[i].n_pagina);
-                printf("  Estilo: %s\n", lista[i].estilo);
-                printf("  Nome da Editora: %s\n", lista[i].nome_editora);
-                printf("  Autor: %s\n", lista[i].autor.nome_autor);
-                printf("  Nacionalidade do Autor: %s\n", lista[i].autor.nacionalidade_autor);
-                printf("  Data de Cadastramento: %02d/%02d/%d\n", lista[i].data.dia, lista[i].data.mes, lista[i].data.ano);
-                printf("\n");
-            } else {
-                printf("Livro não encontrado.");
-            }
+    if (tamanho == 0) {
+        printf("Nenhum livro cadastrado.\n");
+        return;
+    }
+
+    printf("Digite o título do livro a ser consultado: ");
+    fflush(stdin);
+    gets(titulo_consultar);
+
+    int indice_consultar = -1;
+    int i;
+    for (i = 0; i < tamanho; i++) {
+        if (strcmp(lista[i].titulo_livro, titulo_consultar) == 0) {
+            indice_consultar = i;
+            break;
         }
+    }
+
+    if (indice_consultar == -1) {
+        printf("Livro com o título '%s' não encontrado.\n", titulo_consultar);
+    } else {
+	        printf("  Título: %s\n", lista[indice_consultar].titulo_livro);
+	        printf("  Número de Páginas: %d\n", lista[indice_consultar].n_pagina);
+	        printf("  Estilo: %s\n", lista[indice_consultar].estilo);
+	        printf("  Nome da Editora: %s\n", lista[indice_consultar].nome_editora);
+	        printf("  Autor: %s\n", lista[indice_consultar].autor.nome_autor);
+	        printf("  Nacionalidade do Autor: %s\n", lista[indice_consultar].autor.nacionalidade_autor);
+	        printf("  Data de Cadastramento: %02d/%02d/%d\n", lista[indice_consultar].data.dia, lista[indice_consultar].data.mes, lista[indice_consultar].data.ano);
+            printf("\n");
     }
 }
 
@@ -165,19 +172,19 @@ void remover(struct tp_livro** lista, int* tamanho) {
     fflush(stdin);
     gets(titulo_remover);
 
-    int indiceRemover = -1;
+    int indice_remover = -1;
     int i;
     for (i = 0; i < *tamanho; i++) {
         if (strcmp((*lista)[i].titulo_livro, titulo_remover) == 0) {
-            indiceRemover = i;
+            indice_remover = i;
             break;
         }
     }
 
-    if (indiceRemover == -1) {
+    if (indice_remover == -1) {
         printf("Livro com o título '%s' não encontrado.\n", titulo_remover);
     } else {
-        for (i = indiceRemover; i < *tamanho - 1; i++) {
+        for (i = indice_remover; i < *tamanho - 1; i++) {
             (*lista)[i] = (*lista)[i + 1];
         }
 
@@ -272,11 +279,12 @@ int main() {
                 listar(lista, tamanho);
                 break;
             case 3:
-                printf("Função remover\n");
-                remover(&lista, &tamanho);
+                printf("Função consultar\n");
+                consultar(lista, tamanho);
                 break;
             case 4:
-                
+                printf("Função remover\n");
+                remover(&lista, &tamanho);
                 break;
             case 5:
                 menu = 0;
