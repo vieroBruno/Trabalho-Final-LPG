@@ -37,16 +37,16 @@ void inserir(struct tp_livro** lista, int* tamanho) {
     struct tp_livro novolivro;
     printf("\n\n---Cadastro de Livros---\n\n");
 
-    printf("\n\n Titulo do livro.......: ");
+    printf("\n\n Título do livro.......: ");
     fflush(stdin);
     gets(novolivro.titulo_livro);
-
+	
     if (chaveExiste(*lista, *tamanho, novolivro.titulo_livro)) {
         printf("Chave já cadastrada.Tente Novamente.\n");
         return;
     }
 
-    printf("\n\n Número de Paginas.......: ");
+    printf("\n\n Número de Páginas.......: ");
     scanf("%d", &novolivro.n_pagina);
 
     printf("\n\n Estilo do livro.......: ");
@@ -68,7 +68,7 @@ void inserir(struct tp_livro** lista, int* tamanho) {
     printf("\n\n Dia do Cadastramento .......: ");
     scanf("%d", &novolivro.data.dia);
     while(novolivro.data.dia<1||novolivro.data.dia>31){
-    	printf("Dia invalido, Digite Novamente\n");
+    	printf("Dia inválido, Digite Novamente\n");
     	scanf("%d", &novolivro.data.dia);
     	
 	}
@@ -76,26 +76,25 @@ void inserir(struct tp_livro** lista, int* tamanho) {
     printf("\n\n Mês do Cadastramento .......: ");
     scanf("%d", &novolivro.data.mes);
     while(novolivro.data.mes<1||novolivro.data.mes>12){
-    	printf("Mês invalido,Digite Novamente\n");
+    	printf("Mês inválido,Digite Novamente\n");
     	scanf("%d",&novolivro.data.mes);
 	}
 
     printf("\n\n Ano do Cadastramento  .......: ");
     scanf("%d", &novolivro.data.ano);
-    while(novolivro.data.ano!=2023){
-    	printf("Ano invalido,Digite Novamente\n");
+    while(novolivro.data.ano<1900){
+    	printf("Ano inválido,Digite Novamente\n");
     	scanf("%d",&novolivro.data.ano);
 	}
 
     *lista = realloc(*lista, (*tamanho + 1) * sizeof(struct tp_livro));
 
     if (*lista == NULL) {
-        printf("Erro ao alocar memoria.\n");
+        printf("Erro ao alocar memória.\n");
         exit(EXIT_FAILURE);
     }
     (*lista)[*tamanho] = novolivro;
     (*tamanho)++;
-	system("cls");
     printf("Registro inserido com sucesso!\n");
     
     
@@ -113,9 +112,6 @@ void listar(struct tp_livro* lista, int tamanho) {
     for (i = 0; i < tamanho; i++) {
         printf("Livro %d:\n", i + 1);
         printf("  Título: %s\n", lista[i].titulo_livro);
-        printf("  Número de Páginas: %d\n", lista[i].n_pagina);
-        printf("  Estilo: %s\n", lista[i].estilo);
-        printf("  Nome da Editora: %s\n", lista[i].nome_editora);
         printf("  Autor: %s\n", lista[i].autor.nome_autor);
         printf("  Nacionalidade do Autor: %s\n", lista[i].autor.nacionalidade_autor);
         printf("  Data de Cadastramento: %02d/%02d/%d\n", lista[i].data.dia, lista[i].data.mes, lista[i].data.ano);
@@ -270,21 +266,28 @@ int main() {
 
         switch (opcaomenu) {
             case 1:
-                printf("Função inserir\n");
+                printf("\nFunção inserir\n");
                 inserir(&lista, &tamanho);
-                
+                system("pause");
+                system("cls");
                 break;
             case 2:
-                printf("Função listar\n");
+                printf("\nFunção listar\n");
                 listar(lista, tamanho);
+                system("pause");
+                system("cls");
                 break;
             case 3:
-                printf("Função consultar\n");
+                printf("\nFunção consultar\n");
                 consultar(lista, tamanho);
+                system("pause");
+                system("cls");
                 break;
             case 4:
-                printf("Função remover\n");
+                printf("\nFunção remover\n");
                 remover(&lista, &tamanho);
+                system("pause");
+                system("cls");
                 break;
             case 5:
                 menu = 0;
